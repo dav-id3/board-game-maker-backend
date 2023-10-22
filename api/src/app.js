@@ -22,7 +22,6 @@ io.on('connection', (socket) => {
 });
 
 server.listen(PORT, () => {
-    console.log(process.env.WEB_HOST + ":" + process.env.WEB_PORT)
     console.log(('server listening. Port:' + PORT));
 });
 
