@@ -5,15 +5,15 @@ DOCKER_NETWORK := $(PROJECT_NAME)-network
 
 #port
 MYSQL_PORT := 3306
-API_PORT := 8080
+PUB_PORT := 8080
 
 #container name
 DATABASE_CONTAINER := $(PROJECT_NAME)-backend-db
-API_CONTAINER := $(PROJECT_NAME)-backend-api
+PUB_CONTAINER := $(PROJECT_NAME)-backend-pub
 
 #path
 DATABASE_FOLDER := $(CURDIR)/db
-API_FOLDER := $(CURDIR)/api
+PUB_FOLDER := $(CURDIR)/pub
 ENVFILE_FOLDER := $(CURDIR)/envfiles
 
 ##Network
@@ -48,18 +48,19 @@ db.exec:
 	@docker exec -it $(DATABASE_CONTAINER) /bin/bash
 
 
-## api for pub/sub chats
-.PHONY: api.build
-api.build:
-	@docker build -f $(API_FOLDER)/Dockerfile -t $(API_CONTAINER) $(API_FOLDER)
+## pub for pub/sub chats
+.PHONY: pub.build
+pub.build:
+	@docker build -f $(PUB_FOLDER)/Dockerfile -t $(PUB_CONTAINER) $(PUB_FOLDER)
 
-.PHONY: api.up
-api.up:
+.PHONY: .up
+pub.up:
 	@docker run --rm -it \
 	 --network $(DOCKER_NETWORK) \
-	 --env-file $(ENVFILE_FOLDER)/.api \
-	 --volume $(API_FOLDER):/usr/src/api:rw \
-	 --publish $(API_PORT):$(API_PORT) \
-	 --name $(API_CONTAINER) \
-	 $(API_CONTAINER)
+	 --env-file $(ENVFILE_FOLDER)/.pub \
+	 --volume $(PUB_FOLDER):/usr/src/pub:rw \
+	 --publish $(PUB_PORT):$(PUB_PORT) \
+	 --name $(PUB_CONTAINER) \
+	 $(PUB_CONTAINER)
+	
 	
