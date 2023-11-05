@@ -53,7 +53,7 @@ db.exec:
 pub.build:
 	@docker build -f $(PUB_FOLDER)/Dockerfile -t $(PUB_CONTAINER) $(PUB_FOLDER)
 
-.PHONY: .up
+.PHONY: pub.up
 pub.up:
 	@docker run --rm -it \
 	 --network $(DOCKER_NETWORK) \
