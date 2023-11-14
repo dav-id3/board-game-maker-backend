@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
 });
 const qMessage = "INSERT INTO `messages` (`name`, `text`) VALUES (?, ?)";
 const qCardState =
-  "INSERT INTO `card_states` (`id`, `x`, `y`, `is_flipped`, `z_index`) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `x`=?, `y`=?, `is_flipped`=?, `z_index`=?";
+  "INSERT INTO `card_states` (`id`, `table_id`, `x`, `y`, `is_flipped`, `z_index`) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE `x`=?, `y`=?, `is_flipped`=?, `z_index`=?";
 // const qCardState = "UPDATE `card_states` SET `x`=?, `y`=? WHERE `id` = ?";
 const io = require("socket.io")(server, {
   cors: {
@@ -41,6 +41,7 @@ io.on("connection", (socket) => {
         qCardState,
         [
           payload.data.id,
+          payload.data.tableId,
           payload.data.deltaPosition.x,
           payload.data.deltaPosition.y,
           payload.data.isFlipped,
